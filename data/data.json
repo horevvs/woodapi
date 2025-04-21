@@ -1,0 +1,92 @@
+[
+  {
+    "id": 1,
+    "name": "Брус",
+    "size": "100х150",
+    "description": "Идеален для возведения стен и перегородок, а также для создания несущих конструкций.",
+    "price_for_one_beam": 4500,
+    "price_per_cubic_meter": 22000,
+    "image_address": "/product_images/1.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Брус",
+    "size": "100х100",
+    "description": "Идеален для возведения стен и перегородок, а также для создания несущих конструкций.",
+    "price_for_one_beam": 4500,
+    "price_per_cubic_meter": 22000,
+    "image_address": "/product_images/2.jpg"
+  },
+  {
+    "id": 3,
+    "name": "Брус",
+    "size": "200х200",
+    "description": "Используется для строительства крупных объектов, таких как дома и бани.",
+    "price_for_one_beam": 4500,
+    "price_per_cubic_meter": 22000,
+    "image_address": "/product_images/3.jpg"
+  },
+  {
+    "id": 4,
+    "name": "Доска",
+    "size": "100х50",
+    "description": "Используется для строительства крупных объектов, таких как дома и бани.",
+    "price_for_one_beam": 4500,
+    "price_per_cubic_meter": 22000,
+    "image_address": "/product_images/4.jpg"
+  },
+  {
+    "id": 5,
+    "name": "Доска",
+    "size": "100х25",
+    "description": "Используется для строительства крупных объектов, таких как дома и бани.",
+    "price_for_one_beam": 4500,
+    "price_per_cubic_meter": 22000,
+    "image_address": "/product_images/5.jpg"
+  },
+  {
+    "id": 6,
+    "name": "Доска",
+    "size": "150х25",
+    "description": "Используется для строительства крупных объектов, таких как дома и бани.",
+    "price_for_one_beam": 4500,
+    "price_per_cubic_meter": 22000,
+    "image_address": "/product_images/6.jpg"
+  },
+  {
+    "id": 7,
+    "name": "Брусок",
+    "size": "200х30",
+    "description": "Используется для строительства крупных объектов, таких как дома и бани.",
+    "price_for_one_beam": 4500,
+    "price_per_cubic_meter": 22000,
+    "image_address": "/product_images/7.jpg"
+  },
+  {
+    "id": 8,
+    "name": "Брусок",
+    "size": "50х50",
+    "description": "Используется для строительства крупных объектов, таких как дома и бани.",
+    "price_for_one_beam": 4500,
+    "price_per_cubic_meter": 22000,
+    "image_address": "/product_images/8.jpg"
+  },
+  {
+    "id": 9,
+    "name": "Брусок",
+    "size": "100х10",
+    "description": "Используется для строительства крупных объектов, таких как дома и бани.",
+    "price_for_one_beam": 4500,
+    "price_per_cubic_meter": 22000,
+    "image_address": "/product_images/9.jpg"
+  },
+  {
+    "id": 10,
+    "name": "Брусок",
+    "size": "100х10",
+    "description": "Используется для строительства крупных объектов, таких как дома и бани.",
+    "price_for_one_beam": 4500,
+    "price_per_cubic_meter": 22000,
+    "image_address": "/product_images/9.jpg"
+  }
+]
