@@ -1,4 +1,5 @@
 const express = require("express");
+const fs = require('fs');
 const { Pool } = require("pg");
 require("dotenv").config();
 const cors = require("cors");
@@ -29,15 +30,14 @@ const storage = multer.diskStorage({
   },
   filename: function (req, file, cb) {
     // сохраняем файл с оригинальным именем + timestamp
-
     cb(null, file.originalname);
   }
 });
 const upload = multer({ storage: storage });
 
 pool.connect()
-    .then(() => console.log("Подключение к базе данных успешно"))
-    .catch((err) => console.error("Ошибка подключения к базе данных", err));
+  .then(() => console.log("Подключение к базе данных успешно"))
+  .catch((err) => console.error("Ошибка подключения к базе данных", err));
 
 // Определяем маршрут для GET-запроса
 app.get("/data", async (req, res) => {
@@ -103,7 +103,18 @@ app.delete('/data/:id', async (req, res) => {
   const id = req.params.id
   try {
     // SQL-запрос для удаления записи по id
+    const selectQuery = 'SELECT image_address FROM products WHERE id = $1';
+    const selectResult = await pool.query(selectQuery, [id]);
+    const filename = selectResult.rows[0].image_address
+    let new_name = filename.split('/').pop()
+    const filePath = path.join(__dirname, 'public/images', new_name);
+
+    fs.unlink(filePath, (err) => {
+     
+    });
+  
     const queryText = 'DELETE FROM products WHERE id = $1 RETURNING *';
+
     const result = await pool.query(queryText, [id]);
     // Проверка, была ли удалена запись
     if (result.rowCount === 0) {
@@ -114,7 +125,13 @@ app.delete('/data/:id', async (req, res) => {
   } catch (err) {
     console.error('Error executing query', err.stack);
     res.status(500).json({ message: 'Server error' });
+
   }
+
+
+  // const filename=selectResult.rows[0].name
+
+  // const filePath = path.join(__dirname, 'public\images', filename);
 });
 
 app.post('/upload', upload.single('file'), (req, res) => {
@@ -133,7 +150,7 @@ app.post("/add", (req, res) => {
     info.price_per_cubic_meter,
     result
   ];
-  pool.query(query, values); 
+  pool.query(query, values);
 });
 
 
