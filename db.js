@@ -59,7 +59,6 @@ app.post("/submit", (req, res) => {
   const chatId = "@wooden_hvs"; // Замените на ID вашего канала или чата (например, @my_channel)
   const message = info; // Сообщение, которое вы хотите отправить
   const url = `https://api.telegram.org/bot${token}/sendMessage`;
-
   fetch(url, {
     method: "POST",
     body: JSON.stringify({
@@ -68,7 +67,6 @@ app.post("/submit", (req, res) => {
     }),
     headers: { "Content-Type": "application/json" },
   })
-
 });
 
 app.post("/admin", async (req, res) => {
@@ -77,7 +75,7 @@ app.post("/admin", async (req, res) => {
     // Выполняем SQL-запрос
     const result = await pool.query("SELECT * FROM  users");
     // Отправляем результат в формате JSON
-    const result2 = result.rows[0].login == info.username & result.rows[0].password == info.password ? res.send({ access: 'true' }) : res.send({ access: 'false2' });
+    result.rows[0].username == info.username & result.rows[0].password == info.password ? res.send({ access: true }) : res.send({ access: false });
   } catch (err) {
     console.error("Ошибка выполнения запроса", err);
     res.status(500).json({ error: "Ошибка выполнения запроса" });
