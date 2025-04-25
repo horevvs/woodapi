@@ -53,18 +53,56 @@ app.get("/data", async (req, res) => {
   }
 });
 
+app.get("/data/:id", async (req, res) => {
+  let userId = req.params.id;
+  try {
+    // Выполняем SQL-запрос
+    const result = await pool.query(
+      `SELECT * FROM products WHERE id = ${userId}`
+    );
+    // Отправляем результат в формате JSON
+    res.json(result.rows);
+  } catch (err) {
+    console.error("Ошибка выполнения запроса", err);
+    res.status(500).json({ error: "Ошибка выполнения запроса" });
+  }
+});
+
 app.post("/submit", (req, res) => {
   let info = req.body;
   res.status(201).send("Данные успешно созданы");
-
   const markdownMessage = `
   *Данные пользователя*
   Имя: ${info.name}
   Текст: ${info.text}
   Телефон: \`${info.phone}\`
   `;
+  const token = "8043829281:AAHtH99ylTKEna5IezEkPYGjVYhFKY6QfUM"; // Замените на токен вашего бота
+  const chatId = "@wooden_hvs"; // Замените на ID вашего канала или чата (например, @my_channel)
+  // const message = info; // Сообщение, которое вы хотите отправить
+  const url = `https://api.telegram.org/bot${token}/sendMessage`;
+  fetch(url, {
+    method: "POST",
+    body: JSON.stringify({
+      chat_id: chatId,
+      text: markdownMessage,
+      parse_mode: "MarkdownV2", // Используйте MarkdownV2 для форматирования
+    }),
+    headers: { "Content-Type": "application/json" },
+  });
+});
 
-  console.log(markdownMessage)
+app.post("/order", (req, res) => {
+  let info = req.body;
+  console.log(info);
+
+  res.status(201).send("Данные успешно созданы");
+  const markdownMessage = `
+  *Заявка на заказ*
+  Вид товара: ${info.name}
+  Телефон: ${info.size}
+  Количество: \`${info.quantity}\`
+  // `;
   const token = "8043829281:AAHtH99ylTKEna5IezEkPYGjVYhFKY6QfUM"; // Замените на токен вашего бота
   const chatId = "@wooden_hvs"; // Замените на ID вашего канала или чата (например, @my_channel)
   // const message = info; // Сообщение, которое вы хотите отправить
@@ -83,15 +121,12 @@ app.post("/submit", (req, res) => {
 app.post("/consult", (req, res) => {
   let info = req.body;
   res.status(201).send("Данные успешно созданы");
-
-
-
   const markdownMessage = `
   *Данные пользователя*
   Имя: ${info.name}
   Телефон: \`${info.phone}\`
   `;
- 
+
   const token = "8043829281:AAHtH99ylTKEna5IezEkPYGjVYhFKY6QfUM"; // Замените на токен вашего бота
   const chatId = "@wooden_hvs"; // Замените на ID вашего канала или чата (например, @my_channel)
   // const message = info; // Сообщение, которое вы хотите отправить
@@ -102,11 +137,10 @@ app.post("/consult", (req, res) => {
       chat_id: chatId,
       text: markdownMessage,
       parse_mode: "MarkdownV2", // Используйте MarkdownV2 для форматирования
-  }),
+    }),
     headers: { "Content-Type": "application/json" },
   });
 });
-
 
 app.post("/admin", async (req, res) => {
   let info = req.body;
@@ -118,21 +152,6 @@ app.post("/admin", async (req, res) => {
     (result.rows[0].password == info.password)
       ? res.send({ access: true })
       : res.send({ access: false });
-  } catch (err) {
-    console.error("Ошибка выполнения запроса", err);
-    res.status(500).json({ error: "Ошибка выполнения запроса" });
-  }
-});
-
-app.get("/data/:id", async (req, res) => {
-  let userId = req.params.id;
-  try {
-    // Выполняем SQL-запрос
-    const result = await pool.query(
-      `SELECT * FROM products WHERE id = ${userId}`
-    );
-    // Отправляем результат в формате JSON
-    res.json(result.rows);
   } catch (err) {
     console.error("Ошибка выполнения запроса", err);
     res.status(500).json({ error: "Ошибка выполнения запроса" });
@@ -165,30 +184,11 @@ app.delete("/data/:id", async (req, res) => {
     console.error("Error executing query", err.stack);
     res.status(500).json({ message: "Server error" });
   }
-
-  // const filename=selectResult.rows[0].name
-
-  // const filePath = path.join(__dirname, 'public\images', filename);
 });
 
 app.post("/upload", upload.single("file"), (req, res) => {
   ara.push(req.file.filename);
 });
-
-// app.post("/add", (req, res) => {
-//   let info = req.body;
-//   let result = 'http://localhost:3002/image/' + ara.at(-1)
-//   const query = `INSERT INTO products (name, size, description, price_for_one_beam, price_per_cubic_meter,image_address) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;`;
-//   const values = [
-//     info.name,
-//     info.size,
-//     info.description,
-//     info.price_for_one_beam,
-//     info.price_per_cubic_meter,
-//     result
-//   ];
-//   pool.query(query, values);
-// });
 
 app.post("/add", (req, res) => {
   let info = req.body;
