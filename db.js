@@ -72,7 +72,7 @@ app.post("/submit", (req, res) => {
   let info = req.body;
   res.status(201).send("Данные успешно созданы");
   const markdownMessage = `
-  *Данные пользователя*
+  *Заявка с главной страницы обший вопрос*
   Имя: ${info.name}
   Текст: ${info.text}
   Телефон: \`${info.phone}\`
@@ -98,7 +98,7 @@ app.post("/order", (req, res) => {
 
   res.status(201).send("Данные успешно созданы");
   const markdownMessage = `
-  *Заявка на заказ*
+  *Заявка на конкретный товар*
   Вид товара: ${info.name}
   Телефон: ${info.size}
   Количество: \`${info.quantity}\`
@@ -113,7 +113,7 @@ app.post("/order", (req, res) => {
       chat_id: chatId,
       text: markdownMessage,
       parse_mode: "MarkdownV2", // Используйте MarkdownV2 для форматирования
-  }),
+    }),
     headers: { "Content-Type": "application/json" },
   });
 });
@@ -122,7 +122,7 @@ app.post("/consult", (req, res) => {
   let info = req.body;
   res.status(201).send("Данные успешно созданы");
   const markdownMessage = `
-  *Данные пользователя*
+  *Заявка на консультацию*
   Имя: ${info.name}
   Телефон: \`${info.phone}\`
   `;
@@ -149,7 +149,7 @@ app.post("/admin", async (req, res) => {
     const result = await pool.query("SELECT * FROM  users");
     // Отправляем результат в формате JSON
     (result.rows[0].username == info.username) &
-    (result.rows[0].password == info.password)
+      (result.rows[0].password == info.password)
       ? res.send({ access: true })
       : res.send({ access: false });
   } catch (err) {
@@ -167,7 +167,7 @@ app.delete("/data/:id", async (req, res) => {
     const filename = selectResult.rows[0].image_address;
     let new_name = filename.split("/").pop();
     const filePath = path.join(__dirname, "public/images", new_name);
-    fs.unlink(filePath, (err) => {});
+    fs.unlink(filePath, (err) => { });
 
     const queryText = "DELETE FROM products WHERE id = $1 RETURNING *";
     const result = await pool.query(queryText, [id]);
