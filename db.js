@@ -142,16 +142,36 @@ app.post("/consult", (req, res) => {
   });
 });
 
+// app.post("/admin", async (req, res) => {
+//   let info = req.body;
+//   try {
+//     // Выполняем SQL-запрос
+//     const result = await pool.query("SELECT * FROM  users");
+//     // Отправляем результат в формате JSON
+//     (result.rows[0].username == info.username) &
+//       (result.rows[0].password == info.password)
+//       ? res.send({ access: true })
+//       : res.send({ access: false });
+//   } catch (err) {
+//     console.error("Ошибка выполнения запроса", err);
+//     res.status(500).json({ error: "Ошибка выполнения запроса" });
+//   }
+// });
 app.post("/admin", async (req, res) => {
-  let info = req.body;
+  const { username, password } = req.body; // Извлекаем username и password из тела запроса
   try {
-    // Выполняем SQL-запрос
-    const result = await pool.query("SELECT * FROM  users");
-    // Отправляем результат в формате JSON
-    (result.rows[0].username == info.username) &
-      (result.rows[0].password == info.password)
-      ? res.send({ access: true })
-      : res.send({ access: false });
+    // Выполняем SQL-запрос с параметрами
+    const result = await pool.query(
+      "SELECT * FROM users WHERE username = $1 AND password = $2",
+      [username, password]
+    );
+
+    // Проверяем, найден ли пользователь
+    if (result.rows.length > 0) {
+      res.send({ access: true });
+    } else {
+      res.send({ access: false });
+    }
   } catch (err) {
     console.error("Ошибка выполнения запроса", err);
     res.status(500).json({ error: "Ошибка выполнения запроса" });
