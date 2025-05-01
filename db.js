@@ -142,21 +142,7 @@ app.post("/consult", (req, res) => {
   });
 });
 
-// app.post("/admin", async (req, res) => {
-//   let info = req.body;
-//   try {
-//     // Выполняем SQL-запрос
-//     const result = await pool.query("SELECT * FROM  users");
-//     // Отправляем результат в формате JSON
-//     (result.rows[0].username == info.username) &
-//       (result.rows[0].password == info.password)
-//       ? res.send({ access: true })
-//       : res.send({ access: false });
-//   } catch (err) {
-//     console.error("Ошибка выполнения запроса", err);
-//     res.status(500).json({ error: "Ошибка выполнения запроса" });
-//   }
-// });
+
 app.post("/admin", async (req, res) => {
   const { username, password } = req.body; // Извлекаем username и password из тела запроса
   try {
@@ -188,7 +174,6 @@ app.delete("/data/:id", async (req, res) => {
     let new_name = filename.split("/").pop();
     const filePath = path.join(__dirname, "public/images", new_name);
     fs.unlink(filePath, (err) => { });
-
     const queryText = "DELETE FROM products WHERE id = $1 RETURNING *";
     const result = await pool.query(queryText, [id]);
     // Проверка, была ли удалена запись
