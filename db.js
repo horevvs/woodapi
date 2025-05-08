@@ -21,6 +21,7 @@ const pool = new Pool({
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
+  connectionString: process.env.DATABASE_URL,
 });
 
 // Настройка хранилища для multer
@@ -35,10 +36,14 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
+
 pool
   .connect()
   .then(() => console.log("Подключение к базе данных успешно"))
   .catch((err) => console.error("Ошибка подключения к базе данных", err));
+
+ 
+
 
 // Определяем маршрут для GET-запроса
 app.get("/data", async (req, res) => {
@@ -141,7 +146,6 @@ app.post("/consult", (req, res) => {
     headers: { "Content-Type": "application/json" },
   });
 });
-
 
 app.post("/admin", async (req, res) => {
   const { username, password } = req.body; // Извлекаем username и password из тела запроса
