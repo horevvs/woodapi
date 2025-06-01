@@ -42,7 +42,7 @@ pool
   .then(() => console.log("Подключение к базе данных успешно"))
   .catch((err) => console.error("Ошибка подключения к базе данных", err));
 
- 
+
 
 
 // Определяем маршрут для GET-запроса
@@ -197,12 +197,14 @@ app.delete("/data/:id", async (req, res) => {
 
 app.post("/upload", upload.single("file"), (req, res) => {
   ara.push(req.file.filename);
+  console.log(ara)
 });
 
 app.post("/add", (req, res) => {
   let info = req.body;
   let result = "http://localhost:3002/image/" + ara.at(-1);
 
+  console.log(result)
   const insertQuery = `INSERT INTO products (name, size, description, price_for_one_beam, price_per_cubic_meter, image_address) VALUES ($1, $2, $3, $4, $5, $6);`;
   const values = [
     info.name,
